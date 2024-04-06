@@ -1,22 +1,42 @@
-// import necessary react testing library helpers here
-// import the Counter component here
+import { render, screen, fireEvent } from '@testing-library/react';
+import Counter from '../components/Counter';
 
-beforeEach(() => {
-  // Render the Counter component here
-})
-
-test('renders counter message', () => {
-  // Complete the unit test below based on the objective in the line above
+test('renders counter text', () => {
+  render(<Counter />);
+  const counterText = screen.getByText(/Counter/i);
+  expect(counterText).toBeInTheDocument();
 });
 
-test('should render initial count with value of 0', () => {
-  // Complete the unit test below based on the objective in the line above
+test('initial number is 0', () => {
+  render(<Counter />);
+  const initialNumber = screen.getByTestId('count');
+  expect(initialNumber.textContent).toBe('0');
 });
 
-test('clicking + increments the count', () => {
-  // Complete the unit test below based on the objective in the line above
+test('increment counter text', () => {
+  render(<Counter />);
+  const incrementButton = screen.getByText('+');
+  const counterText = screen.getByTestId('count');
+  fireEvent.click(incrementButton);
+  expect(counterText.textContent).toBe('1');
+  fireEvent.click(incrementButton);
+  fireEvent.click(incrementButton);
+  expect(counterText.textContent).toBe('3');
+  fireEvent.click(incrementButton);
+  fireEvent.click(incrementButton);
+  expect(counterText.textContent).toBe('5');
 });
 
-test('clicking - decrements the count', () => {
-  // Complete the unit test below based on the objective in the line above
+test('decrement counter text', () => {
+  render(<Counter />);
+  const decrementButton = screen.getByText('-');
+  const counterText = screen.getByTestId('count');
+  fireEvent.click(decrementButton);
+  expect(counterText.textContent).toBe('-1');
+  fireEvent.click(decrementButton);
+  fireEvent.click(decrementButton);
+  expect(counterText.textContent).toBe('-3');
+  fireEvent.click(decrementButton);
+  fireEvent.click(decrementButton);
+  expect(counterText.textContent).toBe('-5');
 });
